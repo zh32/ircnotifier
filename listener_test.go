@@ -1,4 +1,4 @@
-package ircnotifier_test
+package ircnotifier
 
 import (
 	"testing"
