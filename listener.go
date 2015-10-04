@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"strings"
+	"io"
 )
 
 type NotificationListener struct {
@@ -17,7 +18,7 @@ func (listener *NotificationListener) Listen() {
 			response.WriteHeader(http.StatusForbidden)
 			return
 		}
-		pushEvent, err := listener.parseRequestBody(request)
+		pushEvent, err := listener.parseRequestBody(request.Body)
 		if err != nil {
 			response.WriteHeader(http.StatusInternalServerError)
 			return
@@ -38,9 +39,9 @@ func (listener *NotificationListener) checkAccess(request *http.Request) bool {
 	return *listener.Key == request.URL.Query().Get("k")
 }
 
-func (listener *NotificationListener) parseRequestBody(request *http.Request) (*PushEvent, error) {
+func (listener *NotificationListener) parseRequestBody(reader io.Reader) (*PushEvent, error) {
 	var pushEvent PushEvent
-	decoder := json.NewDecoder(request.Body)
+	decoder := json.NewDecoder(reader)
 	return &pushEvent, decoder.Decode(&pushEvent)
 }
 
