@@ -10,6 +10,7 @@ Supported payloads:
 ##Installation
 
 ``go get github.com/zh32/ircnotifier``
+
 ``go install github.com/zh32/ircnotifier/cmd/ircnotifier``
 
 ##Usage
