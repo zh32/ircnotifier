@@ -24,11 +24,11 @@ func main() {
 
 	client := connectIrc(ircServer, ircNick, ircChannels)
 
-	listener := &notifier.NotificationListener{
-		Writer: notifier.NotificationWriter{Client: client},
-		Key: key,
-		Host: host,
-	}
+	listener := notifier.NewListener(
+		&notifier.NotificationWriter{Client: client},
+		key,
+		host,
+	)
 	listener.Listen()
 
 	quit = make(chan bool)
